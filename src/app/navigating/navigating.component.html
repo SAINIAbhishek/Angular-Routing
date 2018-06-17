@@ -1,0 +1,118 @@
+<div class="container padding padding-bottom">
+  <div class="row">
+    <div class="col-12">
+
+      <h1 class="display-3 text-center">Navigating with Router links</h1>
+      <hr>
+
+      <div class="padding">
+
+        <p>For the navigation in the application without reloading the app every time we use the special directive i.e. routerLink. We just simply add this [routerLink]="['/path']" or routerLink="/path".</p>
+
+        <p>The RouterLink directives on the anchor tags give the router control over those elements. The navigation paths are fixed, so we can assign a string to the routerLink (a "one-time" binding).</p>
+
+        <p>The RouterLinkActive directive on each anchor tag helps visually distinguish the anchor for the currently selected "active" route. The router adds the active CSS class to the element when the associated RouterLink becomes active. We can add this directive to the anchor or to its parent element. Ex: routerLinkActive="active".</p>
+
+      </div>
+
+      <h1 class="display-3 text-center padding">Paths</h1>
+      <hr>
+
+      <div class="padding">
+
+        <p>Absolute path: '/path', which will always get appended to the root domain. Ex: routerLink="/path".</p>
+
+        <p>Relative path: 'path' or '../path' or './path', it always appends the path that we have in the routerLink to the end of the current path. The current path depends on the component in which we are. When we want to created the nested path it is very useful.</p>
+
+        <p>'../', go  back to one level and then load it. It removes the currently loaded segment.</p>
+
+      </div>
+
+      <h1 class="display-3 text-center padding">Navigating programmatically</h1>
+      <hr>
+
+      <div class="padding">
+
+        <p>When we want to navigate in our app programmatically. We inject the Router service in the constructor and then in any method we simply calls the this.router.navigate(['/path']).</p>
+
+        <p>Html file, create a button and define the click listener. (click)="onClick()</p>
+        <button class="btn btn-primary" (click)="onClick()">Absolute Home Path</button>
+
+        <p class="padding">TypeScript file,</p>
+
+        <p>in the constructor, method inject the Router service, {{"constructor(private router: Router) { }"}}</p>
+
+        <p>create a method onClick() and add this line, {{"this.router.navigate(['/path']);"}}</p>
+
+        <p>To navigate a relative path with the Router.navigate method, we must supply the ActivatedRoute to give the router knowledge of where we are in the current route tree.</p>
+        <button class="btn btn-primary" (click)="onRelativeClick()">Relative Home Path</button>
+
+        <p class="padding">in the constructor method inject the Router service and ActivatedRoute service, {{"constructor(private router: Router, private activatedRoute: ActivatedRoute) { }"}}</p>
+
+        <p>After the link parameters array, add an object with a relativeTo property set to the ActivatedRoute. The router then calculates the target URL based on the active route's location.</p>
+
+        <p>{{"this.router.navigate(['home'], {relativeTo: this.activatedRoute});"}}</p>
+
+        <p>Passing queryParams and fragments</p>
+
+        <p>{{"this.router.navigate(['home', id, 'edit'], {queryParams: {allowLang: 'en'}, fragments: 'loading' });"}}</p>
+
+      </div>
+
+      <h1 class="display-3 text-center padding">Passing parameters to Routes</h1>
+      <hr>
+
+      <div class="padding">
+
+        <p>We add dynamic segments in our routes to dynamically load the component. Use route parameters to specify a required parameter value within the route URL.</p>
+
+        <p>{{"{path: '/path:id'}"}}</p>
+
+        <p>':', it tells the angular that it is dynamic part of the route.</p>
+
+        <p>The router supports navigation with optional parameters as well as required route parameters. Define optional parameters in a separate object after we define the required route parameters.</p>
+
+        <p>In general, prefer a required route parameter when the value is mandatory (for example, if necessary to distinguish one route path from another); prefer an optional parameter when the value is optional, complex, and/or multivariate.</p>
+
+        <p>The optional route parameters are not separated by "?" and "&" as they would be in the URL query string. They are separated by semicolons ";"</p>
+
+        <p>{{"{path: '/path:id/edit'}"}}</p>
+
+        <p>To add the queryParams on this link, we set {{"[queryParams]= {allowEdit: '1'}"}}</p>
+
+        <p>now the url will be like '/path/id/edit?allowEdit=1'</p>
+
+        <p>In the queryParams, we can now define the [key: 'value'] pairs of the parameters we want to added.</p>
+
+        <p>To add the fragments on this link, we set {{"[queryParams]= {allowEdit: '1'} [fragments]='#loading'"}}</p>
+
+        <p>now the url will be like 'path?allowLang=en#loading'</p>
+
+      </div>
+
+      <h1 class="display-3 text-center padding">Fetching Routes parameters</h1>
+      <hr>
+
+      <div class="padding">
+
+        <p>in the constructor, method inject the ActivatedRoute service, {{"constructor(private activatedRoute: ActivatedRoute) { }"}}</p>
+
+        <p> in the ngOnInit(), we can easily get access to the our id by using the, {{"this.activatedRoute.snapshot.params['id'];"}}</p>
+
+        <p>With the snapshot approach we can get the access to the data if we haven't been on the component before. It is fine to use this for the first time initialization but when we want to react to the subsequent changes or we want to refelct changes in the component then we have to go with another approach i.e.</p>
+
+        <p>{{"this.activatedRoute.params.subscribe( (params) => { console.log(params['id'] ); } );"}}</p>
+
+        <p>params here are observable. Observable allows us to easily work with the asynchronous task.</p>
+
+        <p>Retrieve queryParams and fragments</p>
+
+        <p>{{"this.activatedRoute.queryParams.subscribe( (params) => { console.log(params['allowLang'] ); } );"}}</p>
+
+        <p>{{"this.activatedRoute.fragment.subscribe( (fragment) => { console.log(fragment); } );"}}</p>
+
+      </div>
+
+    </div>
+  </div>
+</div>
